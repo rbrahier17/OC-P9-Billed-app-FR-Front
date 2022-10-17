@@ -8,6 +8,7 @@ import { ROUTES } from "../constants/routes";
 import { fireEvent, screen } from "@testing-library/dom";
 
 describe("Given that I am a user on login page", () => {
+  
   describe("When I do not fill fields and I click on employee button Login In", () => {
     test("Then It should renders Login page", () => {
       document.body.innerHTML = LoginUI();
@@ -48,6 +49,7 @@ describe("Given that I am a user on login page", () => {
     });
   });
 
+  
   describe("When I do fill fields in correct format and I click on employee button Login In", () => {
     test("Then I should be identified as an Employee in app", () => {
       document.body.innerHTML = LoginUI();
@@ -60,12 +62,14 @@ describe("Given that I am a user on login page", () => {
       fireEvent.change(inputEmailUser, { target: { value: inputData.email } });
       expect(inputEmailUser.value).toBe(inputData.email);
 
+      
       const inputPasswordUser = screen.getByTestId("employee-password-input");
       fireEvent.change(inputPasswordUser, {
         target: { value: inputData.password },
       });
       expect(inputPasswordUser.value).toBe(inputData.password);
 
+      
       const form = screen.getByTestId("form-employee");
 
       // localStorage should be populated with form data
@@ -76,15 +80,19 @@ describe("Given that I am a user on login page", () => {
         },
         writable: true,
       });
+      
 
       // we have to mock navigation to test it
       const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname });
+        let data = []
+        document.body.innerHTML = ROUTES({ pathname, data });
       };
+      
 
       let PREVIOUS_LOCATION = "";
 
       const store = jest.fn();
+      
 
       const login = new Login({
         document,
@@ -93,11 +101,16 @@ describe("Given that I am a user on login page", () => {
         PREVIOUS_LOCATION,
         store,
       });
+      
 
       const handleSubmit = jest.fn(login.handleSubmitEmployee);
       login.login = jest.fn().mockResolvedValue({});
+      
       form.addEventListener("submit", handleSubmit);
-      fireEvent.submit(form);
+      
+     fireEvent.submit(form)
+      
+      
       expect(handleSubmit).toHaveBeenCalled();
       expect(window.localStorage.setItem).toHaveBeenCalled();
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
@@ -111,11 +124,13 @@ describe("Given that I am a user on login page", () => {
       );
     });
 
+    
     test("It should renders Bills page", () => {
       expect(screen.getAllByText("Mes notes de frais")).toBeTruthy();
     });
   });
 });
+
 
 describe("Given that I am a user on login page", () => {
   describe("When I do not fill fields and I click on admin button Login In", () => {
@@ -152,7 +167,7 @@ describe("Given that I am a user on login page", () => {
       const form = screen.getByTestId("form-admin");
       const handleSubmit = jest.fn((e) => e.preventDefault());
 
-      form.addEventListener("submit", handleSubmit);
+      form.addEventListener("submit", handleSubmit); 
       fireEvent.submit(form);
       expect(screen.getByTestId("form-admin")).toBeTruthy();
     });

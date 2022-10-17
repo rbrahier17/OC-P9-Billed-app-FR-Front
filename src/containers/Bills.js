@@ -9,12 +9,13 @@ export default class {
     this.store = store;
     const buttonNewBill = document.querySelector(`button[data-testid="btn-new-bill"]`);
     if (buttonNewBill) buttonNewBill.addEventListener("click", this.handleClickNewBill);
-    const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`);
+    const iconEyes = document.querySelectorAll(`div[data-testid="icon-eye"]`);
     const deleteBtns = document.querySelectorAll("#delete-btn");
-    if (iconEye)
-      iconEye.forEach((icon) => {
-        icon.addEventListener("click", () => this.handleClickIconEye(icon));
+    if (iconEyes) {
+      iconEyes.forEach((icon) => {
+        icon.addEventListener("click", this.handleClickIconEye);
       });
+    }
     deleteBtns.forEach((btn) => {
       btn.addEventListener("click", () => this.handleClickDelete(btn));
     });
@@ -25,7 +26,8 @@ export default class {
     this.onNavigate(ROUTES_PATH["NewBill"]);
   };
 
-  handleClickIconEye = (icon) => {
+  handleClickIconEye = (e) => {
+    const icon = e.currentTarget
     const billUrl = icon.getAttribute("data-bill-url");
     const imgWidth = Math.floor($("#modaleFile").width() * 0.5);
     $("#modaleFile")
@@ -33,7 +35,7 @@ export default class {
       .html(
         `<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`
       );
-    $("#modaleFile").modal("show");
+    if (typeof $("#modaleFile").modal === "function") $("#modaleFile").modal("show");
   };
 
   handleClickDelete = (btn) => {
@@ -56,7 +58,7 @@ export default class {
     }
   };
 
-  formatBills(data) {
+  static formatBills(data) {
     const bills = data.map((doc) => {
       try {
         return {
@@ -80,6 +82,7 @@ export default class {
 
   getBills = async () => {
     const data = await this.getRawData();
-    return this.formatBills(data);
+    if (!data || data.length === 0) return [] 
+    return this.constructor.formatBills(data);
   };
 }
