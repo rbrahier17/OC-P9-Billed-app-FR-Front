@@ -24,8 +24,8 @@ $ git clone https://github.com/rbrahier17/OC-P9-Billed-app-FR-Front.git
 
 ```
 bill-app/
-   - Billed-app-FR-Back
-   - Billed-app-FR-Front
+   - OC-P9-Billed-app-FR-Back
+   - OC-P9-Billed-app-FR-Front
 ```
 
 ## Comment lancer l'application en local ?
@@ -51,12 +51,7 @@ Installez live-server pour lancer un serveur local :
 $ npm install -g live-server
 ```
 
-Lancez l'application :
-```
-$ live-server
-```
-
-Puis allez à l'adresse : `http://127.0.0.1:8080/`
+Lancez l'application avec Live server
 
 
 ## Comment lancer tous les tests en local avec Jest ?
