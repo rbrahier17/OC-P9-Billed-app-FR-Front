@@ -10,15 +10,11 @@ export default class {
     const buttonNewBill = document.querySelector(`button[data-testid="btn-new-bill"]`);
     if (buttonNewBill) buttonNewBill.addEventListener("click", this.handleClickNewBill);
     const iconEyes = document.querySelectorAll(`div[data-testid="icon-eye"]`);
-    const deleteBtns = document.querySelectorAll("#delete-btn");
     if (iconEyes) {
       iconEyes.forEach((icon) => {
         icon.addEventListener("click", this.handleClickIconEye);
       });
     }
-    deleteBtns.forEach((btn) => {
-      btn.addEventListener("click", () => this.handleClickDelete(btn));
-    });
     new Logout({ document, localStorage, onNavigate });
   }
 
@@ -36,17 +32,6 @@ export default class {
         `<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`
       );
     if (typeof $("#modaleFile").modal === "function") $("#modaleFile").modal("show");
-  };
-
-  handleClickDelete = (btn) => {
-    const billId = btn.getAttribute("data-bill-id");
-    if (this.store) {
-      this.store
-        .bills()
-        .delete({ selector: billId })
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
-    }
   };
 
   getRawData = () => {

@@ -69,5 +69,7 @@ textarea:focus, input:focus, select:focus {
 }
 
 .error-message.hidden {
- display: none;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }

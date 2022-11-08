@@ -44,7 +44,7 @@ describe("'formatBills' method unit test suite", () => {
   test("If data date is corrupted on a bill, this bill should not have the 'formattedDate' property but other bills should", () => {
     bills[0].date = "corrupted-data";
     formattedBills = BillsContainer.formatBills(bills);
-    expect(formattedBills.shift()).not.toHaveProperty("formattedDate"); // shift delete the first element an returns it
+    expect(formattedBills.shift()).not.toHaveProperty("formattedDate"); // shift() delete the first element an returns it
     formattedBills.forEach((bill) => expect(bill).toHaveProperty("formattedDate"));
   });
 });
@@ -68,7 +68,7 @@ describe("'getBills' method unit test suite", () => {
     expect(BillsContainer.formatBills).toHaveBeenCalled();
   });
 
-  test("it should return an array with the same length as the lis function of the mocked store", async () => {
+  test("it should return an array with the same length as the list function of the mocked store", async () => {
     const mockStoreData = await mockStore.bills().list();
     const res = await billsContainer.getBills();
     expect(res).toBeInstanceOf(Array);
@@ -84,8 +84,8 @@ describe("'getBills' method unit test suite", () => {
         },
       };
     });
-    result = await billsContainer.getBills();
-    expect(result).toStrictEqual([]);
+    let res = await billsContainer.getBills();
+    expect(res).toStrictEqual([]);
   });
 });
 
@@ -108,8 +108,7 @@ describe("Given I am connected as an employee and I am on Bills Page", () => {
     window.onNavigate(ROUTES_PATH.Bills);
   });
 
-  test("Then bill icon in vertical layout should be highlighted", async () => {
-    await waitFor(() => screen.getByTestId("icon-window"));
+  test("Then bill icon in vertical layout should be highlighted", () => {
     const windowIcon = screen.getByTestId("icon-window");
     expect(windowIcon).toHaveClass("active-icon");
   });

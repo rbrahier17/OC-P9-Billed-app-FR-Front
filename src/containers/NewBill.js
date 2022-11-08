@@ -16,10 +16,10 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate });
   }
 
-  show(el) {
+  static show(el) {
     el.classList.remove("hidden");
   }
-  hide(el) {
+  static hide(el) {
     el.classList.add("hidden");
   }
 
@@ -46,8 +46,8 @@ export default class NewBill {
     const errorMsg = this.document.querySelector(`input[data-testid="file"] + .error-message`);
     if (!isPicture(file.type)) {
       this.document.querySelector(`input[data-testid="file"]`).value = "";
-      return this.show(errorMsg);
-    } else this.hide(errorMsg);
+      return this.constructor.show(errorMsg);
+    } else this.constructor.hide(errorMsg);
   };
 
   handleSubmit = async (e) => {
@@ -59,9 +59,7 @@ export default class NewBill {
     const email = JSON.parse(localStorage.getItem("user")).email;
     formData.append("file", file);
     formData.append("email", email);
-
     await this.createBill(formData);
-
     const bill = {
       email,
       type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
